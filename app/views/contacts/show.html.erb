@@ -1,0 +1,57 @@
+<% if notice %>
+  <div class="alert alert-success" role="alert">
+    <td><%= notice %></td>
+  </div>
+<% end %>
+
+<div class="d-flex justify-content-between">
+  <%= link_to 'Back', contacts_path, class: 'btn btn-light' %>
+  <%= link_to 'Edit', edit_contact_path(@contact), class: 'btn btn-primary' %>
+</div>
+
+<h2 class="text-center">Contact</h2>
+
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th class="text-right w-50">Name:</th>
+      <td><%= @contact.name %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">Birth date:</th>
+      <td><%= @contact.birth_date %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">Phone:</th>
+      <td><%= @contact.phone %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">Address:</th>
+      <td><%= @contact.address %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">Credit card:</th>
+      <td><%= @contact.credit_card %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">Franchise:</th>
+      <td><%= @contact.franchise %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">Email:</th>
+      <td><%= @contact.email %></td>
+    </tr>
+
+    <tr>
+      <th class="text-right w-50">User:</th>
+      <td><%= @contact.user_id %></td>
+    </tr>
+
+  </tbody>
+</table>

@@ -1,0 +1,79 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="upload-file" aria-labelledby="upload-label" aria-hidden="true" x-data="uploadFile()">
+  <%= form_with model: @contacts_file do |form| %>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload contacts</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12 py-1">
+              <%= form.label :file, 'Upload a CSV file with contacts', class: 'form-label' %>
+              <%= form.file_field :file, class: 'form-control' %>
+            </div>
+            <div class="col-sm-12 py-1">
+              <%= form.label :headers, 'Please sort the headers', class: 'form-label' %>
+              <%= form.hidden_field :headers, 'x-model': 'headers_value' %>
+              <select @change="addHeader($event)" class="form-control mb-1 filter-input filter-control statuses filter_payment_statuses">
+                <option disabled selected>Sort the headers</option>
+                <template x-for="(option, index) in options">
+                  <option x-text="option.text" :value="option.value"></option>
+                </template>
+              </select>
+              <template x-for="(badge, index) in badges">
+                <div class="badge rounded-pill bg-light m-1">
+                  <span class="ml-2" x-text="(index + 1) + ')'"></span>
+                  <span class="mr-1 leading-relaxed truncate max-w-xs" x-text="badge.text"></span>
+                  <i class="fa fa-times text-black-50 m-1" @click="removeBadge(index)" style="cursor: pointer"></i>
+                </div>
+              </template>
+            </div>
+            <div class="col-sm-12 py-1 px-5">
+              <%= form.check_box :include_headers, class: 'form-check-input' %>
+              <%= form.label :include_headers, 'CSV file includes headers. Ignore de first row.', class: 'form-check-label' %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span>Please select all the headers</span>
+          <%= form.submit 'Upload', class: 'btn btn-primary', ':disabled': 'disable_submit' %>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  function uploadFile() {
+    return {
+      options: <%= raw Contact::HEADERS.map { |k,v| { text: k, value: v } }.to_json %>,
+      badges: [],
+      headers: [],
+      headers_value: '',
+      disable_submit: true,
+      addHeader($event) {
+        console.log('this.headers.length: ', this.headers.length)
+        if (this.badges.find((badge) => badge.value === $event.target.value )) {
+          return;
+        }
+        this.badges.push({
+          text: $event.target.selectedOptions[0].innerText,
+          value: $event.target.value
+        })
+        this.headers.push($event.target.value)
+        this.headers_value = this.headers.join(',')
+        this.disable_submit = this.headers.length != this.options.length
+      },
+      removeBadge(index) {
+        this.badges.splice(index, 1)
+        this.headers.splice(index, 1)
+        headers_value = this.headers.join(',')
+        this.headers_value = headers_value
+      }
+    }
+  }
+</script>

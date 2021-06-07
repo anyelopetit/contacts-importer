@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Contacts File Rows</h1>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class="text-center">Row</th>
+      <th>Id</th>
+      <th>Contact</th>
+      <th>Data</th>
+      <th>Errors</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contacts_file.rows.each do |contacts_file_row| %>
+    <%= content_tag :tr do %>
+      <td class="text-center"><%= contacts_file_row.row %></td>
+      <td class="text-center"><%= contacts_file_row.id %></td>
+      <td>
+        <div class="small-text">
+          <%= link_to contact_path(contacts_file_row.reviewable.id) do %>
+            <%= contacts_file_row.contact.name %>
+          <% end %>
+        </div>
+      </td>
+      <td><%= contacts_file_row.data_row %></td>
+      <td><%= contacts_file_row.save_errors %></td>
+      <td>
+        <%= contacts_file_row.created_at.strftime('%F %T') %>
+      </td>
+    <% end %>
+  <% end %>
+</tbody>
+</table>
+
+<br>
+
+<div class="d-flex justify-content-between">
+  <%= link_to 'Upload CSV file', '#upload-file', class: 'btn btn-sm btn-primary',  'data-toggle': "modal", 'data-target': "#upload-file" %>
+</div>
+
+<%= render 'contacts/partials/upload_file' %>

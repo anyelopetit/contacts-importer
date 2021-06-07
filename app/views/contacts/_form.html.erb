@@ -1,0 +1,52 @@
+<%= form_with(model: contact, local: true) do |form| %>
+  <% if contact.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+
+      <ul>
+        <% contact.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :birth_date, class: 'form-label' %>
+    <%= form.date_select :birth_date, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone, class: 'form-label' %>
+    <%= form.text_field :phone, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address, class: 'form-label' %>
+    <%= form.text_field :address, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :credit_card, class: 'form-label' %>
+    <%= form.text_field :credit_card, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :franchise, class: 'form-label' %>
+    <%= form.text_field :franchise, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email, class: 'form-label' %>
+    <%= form.text_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit nil, class: 'btn btn-primary' %>
+  </div>
+<% end %>

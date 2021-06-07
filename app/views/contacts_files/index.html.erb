@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Contacts Files</h1>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class="text-center">Id</th>
+      <th>Name</th>
+      <th>Uploaded rows</th>
+      <th>File rows</th>
+      <th>Progress</th>
+      <th>Status</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contacts_files.each do |contacts_file| %>
+    <%= content_tag :tr do %>
+      <td class="text-center"><%= contacts_file.id %></td>
+      <td>
+        <div class="small-text">
+          <%= link_to contacts_file_path(contacts_file), title: contacts_file.file.blob.filename do %>
+            <%= contacts_file.file.blob.filename %>
+          <% end %>
+        </div>
+      </td>
+      <td><%= contacts_file.rows.size %></td>
+      <td><%= contacts_file.excel_rows %></td>
+      <td>
+        <% percent = (contacts_file.rows.size / contacts_file.excel_rows.to_f * 100).round(2) %>
+        <div class="progress">
+          <div class="progress-bar <%= 'bg-success' if percent >= 100 %>" role="progressbar" style="width: <%= percent %>%;" aria-valuenow="<%= percent %>" aria-valuemin="0" aria-valuemax="100"><%= percent %>%</div>
+        </div>
+      </td>
+      <td>
+        <span class="badge badge-pill badge-<%= status_label_name(contacts_file.status) %> py-1 px-2">
+          <strong><%= contacts_file.status %></strong>
+        </span>
+      </td>
+      <td>
+        <%= contacts_file.created_at.strftime('%F %T') %>
+      </td>
+    <% end %>
+  <% end %>
+</tbody>
+</table>
